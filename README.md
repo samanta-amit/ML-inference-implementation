@@ -1,2 +1,2 @@
-# Inference serving using boost asio.
+# Inference serving using boost asio
 
