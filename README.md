@@ -1,4 +1,4 @@
-# inference-server
+# Inference-server
 
 Implementation of the inference server, clients (and the scheduler) using the boost asio framework.
 
