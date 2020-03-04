@@ -40,6 +40,16 @@ class ld_request{
     ld_request(int client_id, int model_id, std::string model_input, tcp_connection::pointer sp);
 };
 
+class cc_request{
+    public:
+    int client_id;
+    int model_id;
+    std::string model_input;
+    tcp_connection::pointer connection_sp;
+    cc_request(int client_id, int model_id, std::string model_input, tcp_connection::pointer sp);
+};
+
+
 class model_state{
     //std::string model_name;
     // wait times in miliseconds for stubs
@@ -58,5 +68,4 @@ class model_state{
     enum _state current_state;
     model_state(int cpu_prep_time, int gpu_memcopy_time, int gpu_exec_time);
 };
-
 #endif

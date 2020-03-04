@@ -41,9 +41,14 @@ class inference_pipeline {
         std::mutex ld_queue_mutex;
         std::condition_variable ld_queue_cv;
 
+        std::deque<cc_request> cc_queue;
+        std::mutex cc_queue_mutex;
+        std::condition_variable cc_queue_cv;
+
         std::thread nw_req_thread;
         std::thread pr_req_thread;
         std::thread ld_req_thread;
+        std::thread cc_req_thread;
         
     public:
         inference_pipeline();
@@ -56,6 +61,7 @@ class inference_pipeline {
         void process_nw_request(void);
         void process_pr_request(void);
         void process_ld_request(void);
+        void process_cc_request(void);
          
 };
 

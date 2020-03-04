@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/tcp_server.dir/tcp_server.cc.o  -o tcp_server libtcp_connection.a libinference_pipeline.a -lpthread -lboost_system librequest_defs.a 

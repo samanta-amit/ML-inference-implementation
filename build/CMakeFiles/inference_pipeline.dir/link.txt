@@ -1,0 +1,2 @@
+/usr/bin/ar qc libinference_pipeline.a  CMakeFiles/inference_pipeline.dir/inference_pipeline.cc.o
+/usr/bin/ranlib libinference_pipeline.a

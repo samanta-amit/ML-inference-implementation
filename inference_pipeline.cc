@@ -15,16 +15,20 @@ inference_pipeline::inference_pipeline() :
     pr_queue_cv(),
     ld_queue_mutex(),
     ld_queue_cv(),
+    cc_queue_mutex(),
+    cc_queue_cv(),
     // spin up all the pipeline threads.
     nw_req_thread(&inference_pipeline::process_nw_request, this),
     pr_req_thread(&inference_pipeline::process_pr_request, this),
-    ld_req_thread(&inference_pipeline::process_ld_request, this){
+    ld_req_thread(&inference_pipeline::process_ld_request, this),
+    cc_req_thread(&inference_pipeline::process_ld_request, this){
     
     // random values for the models
     // model_state(cpu_wait_time,gpu_mem_time,gpu_time)
     srv_state.insert(std::make_pair(1, model_state(1,300,100)));
     srv_state.insert(std::make_pair(2, model_state(1,500,150)));
     srv_state.insert(std::make_pair(3, model_state(1,900,200)));
+    srv_state.insert(std::make_pair(4, model_state(1,1000,300)));
 }
 
 void inference_pipeline::make_inference(int client_id, int model_id, std::string model_input, tcp_connection::pointer sp){
@@ -120,6 +124,26 @@ void inference_pipeline::process_ld_request(void){
         auto lr = ld_queue.back();
         ld_queue.pop_back();
         ld_mutex_mgr.unlock();
+        auto x = srv_state.find(lr.model_id);
+        std::this_thread::sleep_for(std::chrono::milliseconds( (x->second).gpu_memcopy_time )); 
+        echo_input_back(lr.client_id, lr.model_id, lr.model_input, lr.connection_sp);
+
+        // Finally return the output back to the client
+        // std::cout<<" inside the ld_queue thread processing request from pr_queue"<<lr.client_id<<std::endl;
+
+    }
+    return;
+}
+
+void inference_pipeline::process_cc_request(void){
+    while(1){
+        std::unique_lock<std::mutex> cc_mutex_mgr(cc_queue_mutex);
+        ld_queue_cv.wait(cc_mutex_mgr, [this](){return cc_queue.size() != 0; });
+        // TODO: implementation of step C from discussion.
+        // Invoke the function to make the inference
+        auto lr = cc_queue.back();
+        cc_queue.pop_back();
+        cc_mutex_mgr.unlock();
         auto x = srv_state.find(lr.model_id);
         std::this_thread::sleep_for(std::chrono::milliseconds( (x->second).gpu_memcopy_time )); 
         echo_input_back(lr.client_id, lr.model_id, lr.model_input, lr.connection_sp);

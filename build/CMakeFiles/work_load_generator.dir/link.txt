@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/work_load_generator.dir/work_load_generator.cc.o  -o work_load_generator librpc_client.a -lpthread -lboost_system 

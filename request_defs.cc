@@ -20,6 +20,14 @@ ld_request::ld_request(int client_id, int model_id, std::string model_input, tcp
     this->model_input = model_input;
     this->connection_sp = sp;
 }
+
+cc_request::cc_request(int client_id, int model_id, std::string model_input, tcp_connection::pointer sp){
+    this->client_id = client_id;
+    this->model_id = model_id;
+    this->model_input = model_input;
+    this->connection_sp = sp;
+}
+
 // This class stores the state of each model on the server
 model_state::model_state(int cpu_prep_time, int gpu_memcopy_time, int gpu_exec_time){
     this->cpu_prep_time = cpu_prep_time;

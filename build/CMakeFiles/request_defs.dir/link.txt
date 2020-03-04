@@ -1,0 +1,2 @@
+/usr/bin/ar qc librequest_defs.a  CMakeFiles/request_defs.dir/request_defs.cc.o
+/usr/bin/ranlib librequest_defs.a
