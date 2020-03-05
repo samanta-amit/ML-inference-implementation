@@ -49,6 +49,15 @@ class cc_request{
     cc_request(int client_id, int model_id, std::string model_input, tcp_connection::pointer sp);
 };
 
+class cq_request{
+    public:
+    int client_id;
+    int model_id;
+    std::string model_input;
+    tcp_connection::pointer connection_sp;
+    cq_request(int client_id, int model_id, std::string model_input, tcp_connection::pointer sp);
+};
+
 
 class model_state{
     //std::string model_name;

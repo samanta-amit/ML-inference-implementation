@@ -40,7 +40,8 @@ class inference_pipeline {
         std::deque<ld_request> ld_queue;
         std::mutex ld_queue_mutex;
         std::condition_variable ld_queue_cv;
-
+        
+        // central queue
         std::deque<cc_request> cc_queue;
         std::mutex cc_queue_mutex;
         std::condition_variable cc_queue_cv;
